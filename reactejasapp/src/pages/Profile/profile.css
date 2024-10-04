@@ -1,0 +1,81 @@
+.profile
+{
+    display: flex;
+}
+.profileRight
+{
+    flex:18;
+}
+.profileRightBottom
+{
+    display: flex;
+    margin-top: 200px;
+}
+.profileCoverPic
+{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+
+}
+.profileRightTop
+{
+    display: flex;
+}
+.profilePic
+{
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    position: absolute;
+    margin: auto;
+    margin-left: 550px;
+    margin-top: 200px;
+    justify-content: center;
+    left: 0;
+    right: 0;
+   border: solid white 5px;
+}
+
+.profileCover{
+    height: 300px;
+    position: relative;
+    width: 100%;
+}
+.profieInfoText2
+{
+    display: flex;
+    justify-content: center;  
+    color: gray;
+
+}
+.mydiv
+{
+    margin-top: 80px;
+    align-items: center;
+    display:table-column;
+}
+.profieInfoText
+{
+    display: flex;
+    justify-content: center;
+}
+.profileInfo
+{
+    display: flex;
+    /* height: 10px; */
+  
+}
+.rightbarProfileTExt
+{
+    font-weight: 500;
+    font-size: 18px;
+    color:rgba(42, 13, 13, 0.863);
+}
+.rightbarContent
+{
+    flex: 5;
+    align-items: center;
+    
+}
