@@ -35,7 +35,8 @@ const Rightbar = ({ user }) => {
         <div className="userInfo">
           <h4>{user.username}</h4>
           <span className='userInfoAbout'>
-            {user?.userinfo}
+            {user?.desc}
+            
           </span>
         </div>
         <div className="userInfoFriends">

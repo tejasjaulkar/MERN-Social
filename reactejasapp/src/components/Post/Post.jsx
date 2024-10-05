@@ -9,6 +9,7 @@ const Post = ({ post }) => {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user,setUser] = useState({});
+  const [profilePicture,setprofilePicture] = useState("");
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   const likeHandler = () => {
@@ -21,9 +22,12 @@ const Post = ({ post }) => {
     {
        const fetchUser = async() =>
        {
-          const res = await axios.get(`http://localhost:8800/api/users?userId=${post.userId}`)
+          const res = await axios.get(`http://localhost:8800/api/users?userId=${post?.userId}`)
           setUser(res?.data)
-          console.log(res)
+          const profilePic = res?.data?.profilePicture
+          setprofilePicture(profilePic);
+
+          // console.log("in post beta",profilePic)
        }
        fetchUser();
     },[post.userId])
@@ -36,7 +40,7 @@ const Post = ({ post }) => {
         <div className="postTop">
           <div className="postTopLeft">
            <Link to={`profile/${user?.username} `}>
-           <img src={user?.profilePicture || PF+"noprofile.jpeg" } alt="img" className="postProfileImg" />
+           <img src={`http://localhost:3000/assets/${profilePicture}` || PF+"noprofile.jpg" } alt="img" className="postProfileImg" />
             </Link>
             <div className="postUserInfo">
               <span className="postUsername">{user?.username}</span>

@@ -1,19 +1,36 @@
 
 import axios from 'axios'
 
- export const loginCalls = async(userCredentials,dispatch)=>
+
+ export const loginCalls = async(userCredentials)=>
     {
-
-        dispatch({type:"LOGIN_START"});
-
         try
         {
-            const res = await axios.post("/auth/login",userCredentials)
-            dispatch({type:"LOGIN_SUCCESS",payload:res.data});
+            const res = await axios.post("http://localhost:8800/api/auth/login",userCredentials)
+            console.log("hfjhjfh")
+            console.log(res.data);
+            return res.data;
+
 
         }
-        catch(err){
-            dispatch({type:"LOGIN_FAILURE",payload:err});
+        catch(err)
+        {
+            console.log(err);
         }
-        
     };
+
+
+export const RegisterCalls = async(userData) =>
+{
+    try{
+            const response = await axios.post("http://localhost:8800/api/auth/register",userData)
+            // console.log(response.data);
+            return response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+
+    }
+
+}

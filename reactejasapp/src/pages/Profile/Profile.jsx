@@ -6,11 +6,13 @@ import Rightbar from '../../components/Rightbar/Rightbar'
 import Feed from '../../components/Feed/Feed'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER ;
   const [user,setUser] = useState({});
   const {username} = useParams();
+  const navigate = useNavigate()
   
   useEffect(()=>
     {
@@ -31,7 +33,7 @@ const Profile = () => {
         <div className="profileRight">
             <div className="profileRightTop">
               <div className="profileCover">
-              <img src={user.profilePicture || PF+"noprofile.jpeg"}alt="" className="profilePic" />
+              <img src={user.profilePicture || PF+"noprofile.jpg"}alt="" className="profilePic" />
               <img src={user.coverPicture || PF+"cover3.jpg"}  alt="" className="profileCoverPic" />
               </div>
             </div>

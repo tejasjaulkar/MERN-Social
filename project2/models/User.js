@@ -47,7 +47,8 @@ const userScema =  new mongoose.Schema({
     desc :{
 
         type:String,
-        max:50
+        max:50,
+        default:""
     },
     city:{
         type:String,

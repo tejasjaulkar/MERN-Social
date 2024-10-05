@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./topbar.css"
 import { Search, Person, Chat, Notifications } from '@mui/icons-material';
 import {Link} from 'react-router-dom'
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios'
 
 const Topbar = () => {
+
+  const {user} = useContext(AuthContext);
+  const [profilePicture,setprofilePicture]  = useState("");
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  // console.log("in topbar",user);
+  // console.log(localStorage.getItem("user"))
+  
+  const fetchUserDetails =async ()=>
+  {
+    
+    const userDetails = await axios.get(`http://localhost:8800/api/users?userId=${user?.id}`)
+    const profilePic = userDetails?.data?.profilePicture 
+    setprofilePicture(profilePic);
+  }
+  fetchUserDetails();
+  // console.log("userdetails",userDetails)
   return (
 
     <div className="topbarContainer">
@@ -23,7 +42,7 @@ const Topbar = () => {
       <div className="topbarRight">
         <div className="topbarlink">
           <span className="topbarLink">Homepage</span>
-          <span className="topbarLink">Timeline</span>
+          <span className="topbarLink5">Timeline</span>
         </div>
         <div className="topbarIcons">
           <div className="topbarIconItems">
@@ -39,7 +58,9 @@ const Topbar = () => {
             <span className="topbarIconBadge">1</span>
           </div>
         </div>
-        <img src="/assets/person6.jpeg" alt="" className="topbarImg" />
+          <Link to={`/profile/${user.username}`}>
+               <img src={profilePicture ? `${PF}${profilePicture}` : `${PF}noprofile.jpg`} alt="" className="topbarImg" />
+          </Link>
       </div>
     </div>
   )
