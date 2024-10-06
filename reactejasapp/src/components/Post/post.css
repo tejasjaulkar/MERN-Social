@@ -1,105 +1,121 @@
 .post {
-    width: 92.5%;
-    border-radius: 10px;
-    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
-    margin-bottom: 20px;
-    background-color: white;
-  }
-  
-  .postWrapper {
-    padding: 20px;
-  }
-  
-  .postTop {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  .postTopLeft {
-    display: flex;
-    align-items: center;
-  }
-  
-  .postProfileImg {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  
-  .postUserInfo {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .postUsername {
-    font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 3px;
-  }
-  
-  .postDate {
-    font-size: 12px;
-    color: #65676b;
-  }
-  
-  .postMoreIcon {
-    cursor: pointer;
-    color: #65676b;
-  }
-  
-  .postText {
-    margin-bottom: 15px;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-  
-  .postImg {
-    width: 100%;
-    max-height: 500px;
-    object-fit: contain;
-    margin-bottom: 15px;
-    border-radius: 5px;
-   
-  }
-  
-  .postBottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .postBottomLeft, .postBottomRight {
-    display: flex;
-    align-items: center;
-  }
-  
-  .postButton {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    color: #65676b;
-    font-size: 14px;
-  }
-  
-  .postButton svg {
-    margin-right: 5px;
-  }
-  
-  .postButton.liked {
-    color:rgb(252, 8, 8);
-  }
-  
-  .postButton:hover {
-    background-color: #f0f2f5;
-    border-radius: 5px;
-    padding: 5px;
-  }
+  width: 92.5%;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: white;
+  transition: transform 0.2s, box-shadow 0.2s; /* Add transitions */
+}
+
+.post:hover {
+  transform: translateY(-2px); /* Lift effect on hover */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.postWrapper {
+  padding: 20px;
+}
+
+.postTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.postTopLeft {
+  display: flex;
+  align-items: center;
+}
+
+.postProfileImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: transform 0.2s; /* Add transition */
+}
+
+.postProfileImg:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.postUserInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.postUsername {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.postDate {
+  font-size: 12px;
+  color: #65676b;
+}
+
+.postMoreIcon {
+  cursor: pointer;
+  color: #65676b;
+}
+
+.postText {
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333; /* Slightly darker text */
+}
+
+.postImg {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  transition: transform 0.2s; /* Add transition */
+}
+/* /* 
+/* .postImg:hover {
+  transform: scale(1.02); /* Slightly enlarge image on hover 
+}  */
+.postBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postBottomLeft, .postBottomRight {
+  display: flex;
+  align-items: center;
+}
+
+.postButton {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #65676b;
+  font-size: 14px;
+  transition: color 0.2s; /* Add transition */
+}
+
+.postButton svg {
+  margin-right: 5px;
+}
+
+.postButton.liked {
+  color: rgb(252, 8, 8);
+}
+
+.postButton:hover {
+  color: #000; /* Change text color on hover */
+  background-color: #f0f2f5;
+  border-radius: 5px;
+  padding: 5px;
+}

@@ -21,8 +21,7 @@ const Feed = ({ username }) => {
     }
     fetchPosts();
   }, [username,user?.id])
-
-
+  
   return (
     <>
       <div className="feed">
