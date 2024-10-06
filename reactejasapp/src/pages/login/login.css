@@ -1,145 +1,170 @@
 /* login.css */
 :root {
-    --primary-color: #1775ee;
-    --secondary-color: #42b72a;
-    --background-color: #f0f2f5;
-    --text-color: #1c1e21;
-    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
-  
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-color);
-    margin: 0;
-    padding: 0;
-  }
-  
-  .login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
+  --primary-color: #1775ee;
+  --secondary-color: #42b72a;
+  --background-color: #f0f2f5;
+  --text-color: #1c1e21;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.loginWrapper {
+  display: flex;
+  width: 100%;
+  max-width: 980px;
+  margin: auto;
+}
+
+.loginLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 32px;
+}
+
+.logo {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.loginDesc {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.loginRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginBox {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.loginEmail, .loginPassword {
+  height: 50px;
+  border-radius: 6px;
+  border: 1px solid #dddfe2;
+  font-size: 1rem;
+  padding-left: 16px;
+  margin-bottom: 14px;
+}
+
+.loginEmail:focus, .loginPassword:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(23, 117, 238, 0.2);
+}
+
+.loginButton {
+  height: 50px;
+  border-radius: 6px;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.loginButton:hover {
+  background-color: #166fe5;
+}
+
+.loginForgetPassword {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.loginCreateNewAccount {
+  height: 50px;
+  border-radius: 6px;
+  border: none;
+  background-color: var(--secondary-color);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.loginCreateNewAccount:hover {
+  background-color: #36a420;
+}
+
+@media (max-width: 768px) {
   .loginWrapper {
-    display: flex;
-    width: 70%;
-    max-width: 980px;
-    margin: auto;
-  }
-  
-  .loginLeft {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-right: 32px;
-  }
-  
-  .logo {
-    font-size: 50px;
-    font-weight: 800;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-  
-  }
-  .bold{
-    align-items: center;
-    margin-left: 110px;
-  }
-  
-  .loginDesc {
-    font-size: 24px;
-    color: var(--text-color);
-  }
-  
-  .loginRight {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .loginBox {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .loginEmail, .loginPassword {
-    height: 50px;
-    border-radius: 6px;
-    border: 1px solid #dddfe2;
-    font-size: 17px;
-    padding-left: 16px;
-    margin-bottom: 14px;
-  }
-  
-  .loginEmail:focus, .loginPassword:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(23, 117, 238, 0.2);
-  }
-  
-  .loginButton {
-    height: 50px;
-    border-radius: 6px;
-    border: none;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 14px;
-  }
-  
-  .loginButton:hover {
-    background-color: #166fe5;
-  }
-  
-  .loginForgetPassword {
-    text-align: center;
-    color: var(--primary-color);
-    margin-bottom: 14px;
-    cursor: pointer;
-  }
-  
-  .loginCreateNewAccout {
-    height: 50px;
-    border-radius: 6px;
-    border: none;
-    background-color: var(--secondary-color);
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .loginCreateNewAccout:hover {
-    background-color: #36a420;
-  }
-  
-  @media (max-width: 900px) {
-    .loginWrapper {
       flex-direction: column;
-      width: 90%;
-    }
-  
-    .loginLeft {
-      margin-bottom: 40px;
-      align-items: center;
-      text-align: center;
-      padding-right: 0;
-    }
-  
-    .logo {
-      font-size: 40px;
-    }
-  
-    .loginDesc {
-      font-size: 20px;
-    }
   }
+
+  .loginLeft {
+      margin-bottom: 40px;
+      padding-right: 0;
+  }
+
+  .logo {
+      font-size: 2.5rem;
+  }
+
+  .loginDesc {
+      font-size: 1.25rem;
+  }
+
+  .loginBox {
+      padding: 15px;
+  }
+
+  .loginEmail, .loginPassword, .loginButton, .loginCreateNewAccount {
+      height: 45px;
+      font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login {
+      padding: 10px;
+  }
+
+  .logo {
+      font-size: 2rem;
+  }
+
+  .loginDesc {
+      font-size: 1rem;
+  }
+
+  .loginEmail, .loginPassword, .loginButton, .loginCreateNewAccount {
+      height: 40px;
+      font-size: 0.9rem;
+  }
+}
+

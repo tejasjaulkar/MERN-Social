@@ -12,9 +12,18 @@ const Post = ({ post }) => {
   const [profilePicture,setprofilePicture] = useState("");
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  const likeHandler = () => {
-    setLike(prev => (isLiked ? prev - 1 : prev + 1));
-    setIsLiked(prev => !prev);
+  const likeHandler = async() => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8800/api/post/${post._id}/like`,
+        { userId: user._id }  // Passing userId in the request body
+      );
+      console.log("in response of like:", response);
+      setLike((prev) => (isLiked ? prev - 1 : prev + 1));
+      setIsLiked((prev) => !prev);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
    console.log(post.userId)
@@ -40,7 +49,7 @@ const Post = ({ post }) => {
         <div className="postTop">
           <div className="postTopLeft">
            <Link to={`profile/${user?.username} `}>
-           <img src={`http://localhost:3000/assets/${profilePicture}` || PF+"noprofile.jpg" } alt="img" className="postProfileImg" />
+           <img src={profilePicture?`${PF}${profilePicture}`: `${PF}noprofile.jpg` } alt="img" className="postProfileImg" />
             </Link>
             <div className="postUserInfo">
               <span className="postUsername">{user?.username}</span>

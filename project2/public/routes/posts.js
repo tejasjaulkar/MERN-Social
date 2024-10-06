@@ -71,32 +71,25 @@ router.delete("/:id",async(req,res)=>
 
 //get like and remove like
 
-
-router.put("/:id/like",async(req,res)=>
-{
-      try{
-
-        const user = await Post.findById(req.params.id);
-        if(!user.likes.includes(req.body.userId))
-        {
-           await user.updateOne({$push:{likes:req.body.userId}});
-           res.status(200).json("liked");
-        }
-        else{
-
-            if(user.likes.includes(req.body.userId))
-                {
-                    await user.updateOne({$pull:{likes:req.body.userId}});
-                    res.status(200).json("disliked successfully")
-                }        
-        }
-       
+router.put("/:id/like", async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+  
+      if (!post) {
+        return res.status(404).json("Post not found");
       }
-      catch(err)
-      {
-        res.status(403).json("error occured during like");
+  
+      if (!post.likes.includes(req.body.userId)) {
+        await post.updateOne({ $push: { likes: req.body.userId } });
+        return res.status(200).json("The post has been liked");
+      } else {
+        await post.updateOne({ $pull: { likes: req.body.userId } });
+        return res.status(200).json("The post has been disliked");
       }
-});
+    } catch (err) {
+      return res.status(500).json("An error occurred while liking the post");
+    }
+  });
 
 //get post
 router.get("/:id",async(req,res)=>
@@ -138,7 +131,7 @@ router.get("/timeline/:userId",async(req,res)=>
    }
 });
 
-
+//get profile
 router.get("/profile/:username",async(req,res)=>    
     {
        try
