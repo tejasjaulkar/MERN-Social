@@ -1,2 +1,2 @@
-# Tejas Social
+# QuillConnect
 A social Media Web Application
