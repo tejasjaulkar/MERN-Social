@@ -1,17 +1,16 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect , useRef} from 'react';
 import './share.css';
 import { PermMedia, Label, Room, EmojiEmotions } from '@mui/icons-material';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 
+
 const Share = () => {
     const { user } = useContext(AuthContext);
     const [sharePicture, setSharePicture] = useState("");
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-    const [file, setFile] = useState(null);
+    const [file,setFile] = useState(null);
     const desc = useRef();
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -30,47 +29,51 @@ const Share = () => {
         }
     }, [user]);
 
-    const submitHandler = async (e) => {
+  const  submitHandler = async(e) =>
+    {
         e.preventDefault();
-        if (!desc.current.value && !file) {
-            alert("Please enter a description or upload an image.");
-            return;
-        }
+        console.log("in handleer")
+        const userPost = 
+        {
+            userId : user.id,
+            desc : desc.current.value
+
+        };
         
-        setIsUploading(true);
-    
-        try {
-            let imageFileName = null;
+        if (user) {
+            const data = new FormData();
+            const fileName = Date.now() + "." + file.name.split('.').pop(); // Add a check for file
+            console.log("fileName", fileName)
             if (file) {
-                const data = new FormData();
                 data.append("file", file);
-                
-                const uploadResponse = await axios.post("http://localhost:8800/upload", data);
-                imageFileName = uploadResponse.data.filename;
-                setUploadedImage(imageFileName);
+                data.append("name", fileName);
+                userPost.img = fileName; 
             }
-    
-            const userPost = {
-                userId: user.id,
-                desc: desc.current.value,
-                img: imageFileName
-            };
-    
-            const postResponse = await axios.post("http://localhost:8800/api/post", userPost);
-            console.log("Post created:", postResponse.data);
-    
-            // Clear the form
-            desc.current.value = "";
-            setFile(null);
+
             
-            alert("Post created successfully!");
-        } catch (err) {
-            console.error("Error creating post:", err);
-            alert("Error creating post. Please try again.");
-        } finally {
-            setIsUploading(false);
+
+            try {
+                
+                await axios.post("http://localhost:8800/upload", data);
+            } catch (err) {
+                console.error("Error uploading file", err);
+                
+            }
+            
         }
-    };
+
+        try
+        {
+            const response = await axios.post("http://localhost:8800/api/post",userPost)
+            console.log("response:", response)
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
+    }
+
+
 
     return (
         <div>
@@ -90,21 +93,19 @@ const Share = () => {
                 </div>
                 <hr className="shareHr" />
 
-                <form className="shareBottom" onSubmit={submitHandler}>
+                <form className="shareBottom"  onSubmit={submitHandler}>
                     <div className="shareOptions">
-                        <label htmlFor="file">
-                            <div className="shareOption">
+                      <label htmlFor="file">
+                         <div className="shareOption">
                                 <PermMedia htmlColor="tomato" className="shareIcon" />
                                 <span className="shareOptionText">Photo or Video</span>
-                                <input 
-                                    type="file"
-                                    id='file'
-                                    accept='.jpg,.jpeg,.png'
-                                    style={{display:"none"}} 
-                                    onChange={(e) => setFile(e.target.files[0])}
-                                />
+                                <input type="file"
+                                 id='file'
+                                accept='.jpg,.jpeg,.png'
+                                style={{display:"none"}} 
+                                onChange={(e)=> setFile(e.target.files[0])}/>
                             </div>
-                        </label>
+                      </label>
 
                         <div className="shareOption">
                             <Label htmlColor="blue" className="shareIcon" />
@@ -120,11 +121,10 @@ const Share = () => {
                             <EmojiEmotions className="shareIcon" htmlColor="rgb(228, 228, 18)" />
                             <span className="shareOptionText">Feelings</span>
                         </div>
-                        <button className="shareButton" type='submit' disabled={isUploading}>
-                            {isUploading ? 'Sharing...' : 'Share'}
-                        </button>
+                        <button className="shareButton" type='submit'>Share</button>
                     </div>
-                </form>
+               
+            </form>
             </div>
         </div>
     );

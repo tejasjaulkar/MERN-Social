@@ -47,5 +47,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3000/project2"
+  "proxy": "http://localhost:8800"
+
 }

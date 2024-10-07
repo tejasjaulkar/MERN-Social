@@ -12,12 +12,17 @@ const Post = ({ post }) => {
   const [profilePicture, setProfilePicture] = useState('');
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
+  // console.log("xxxxxxxxxxx", post)
+  
+
   // Handle liking the post
   const likeHandler = async () => {
     if (!user._id) {
       console.log("User not logged in");
       return;
     }
+
+   
 
     try {
       const response = await axios.put(

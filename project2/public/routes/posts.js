@@ -4,10 +4,10 @@ import User from '../../models/User.js'
 import bcrypt from 'bcrypt';
 
 const router = express.Router();
-
+//create post
 router.post("/",async(req,res)=>
 {
-    const newPost =   new Post(req.body);
+    const newPost =  new Post(req.body);
     try{
 
         const savedPost = await newPost.save();
@@ -111,25 +111,21 @@ router.get("/:id",async(req,res)=>
 
 // timeline posts i.e post of following ones
 
-router.get("/timeline/:userId",async(req,res)=>    
-{
-   try{
-        const currUser = await User.findById(req.params.userId);
-        const currUserPost = await Post.find({userId:currUser._id});
-        const friendPost = await Promise.all(
-
-            currUser.following.map((friendId)=>
-            {
-                return Post.find({userId:friendId});
-            })
-        )
-        res.status(200).json(currUserPost.concat(...friendPost));
-   }
-   catch(err)
-   {
-        res.status(403).json(err);
-   }
-});
+router.get("/timeline/:userId", async (req, res) => {
+    try {
+         const currUser = await User.findById(req.params.userId);
+         const currUserPost = await Post.find({userId: currUser._id});
+         const friendPost = await Promise.all(
+             currUser.following.map((friendId) => {
+                 return Post.find({userId: friendId});
+             })
+         );
+         res.status(200).json(currUserPost.concat(...friendPost));
+    }
+    catch(err) {
+         res.status(403).json(err);
+    }
+ });
 
 //get profile
 router.get("/profile/:username",async(req,res)=>    
