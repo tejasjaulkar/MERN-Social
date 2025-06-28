@@ -1,0 +1,73 @@
+import React, { useContext, useState } from 'react';
+import './login.css';
+import { loginCalls } from '../../apiCalls';
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const { dispatch } = useContext(AuthContext);
+
+    const handleClick = async (e) => {
+        e.preventDefault();
+        const userCredentials = { email, password };
+
+        try {
+            const response = await loginCalls(userCredentials);
+            if (response && response.user) {
+                localStorage.setItem('user', JSON.stringify(response.user));
+                dispatch({ type: 'LoginSuccess', payload: response.user });
+                navigate(`/profile/${response.user.username}`);
+            } else {
+                console.error("Invalid response format:", response);
+                // Handle error appropriately
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            dispatch({ type: 'LoginFailure', payload: err });
+        }
+    };
+
+    const createNewAcc = () => {
+        navigate("/register");
+    };
+
+    return (
+        <div className="login">
+            <div className="loginWrapper">
+                <div className="loginLeft">
+                    <h1 className='logo'><b>QuillConnect</b></h1>
+                    <p className='loginDesc'>Connect with friends and the world around you on QuillConnect</p>
+                </div>
+                <div className="loginRight">
+                    <form className="loginBox" onSubmit={handleClick}>
+                        <input 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)} 
+                            className='loginEmail' 
+                            type='email' 
+                            required 
+                            placeholder='Enter Your Email' 
+                        />
+                        <input 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            placeholder='Enter Your Password' 
+                            required 
+                            minLength={6} 
+                            type="password" 
+                            className="loginPassword" 
+                        />
+                        <button className="loginButton" type="submit">Log In</button>
+                        <a href="#" className='loginForgetPassword'>Forgot password?</a>
+                        <button className="loginCreateNewAccount" onClick={createNewAcc} type="button">Create new account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Login;
