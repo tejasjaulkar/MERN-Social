@@ -8,22 +8,26 @@ import { AuthContext } from '../../context/AuthContext';
 const Rightbar = ({ user }) => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   console.log("profile ==", user);
-  // console.log(friendId)
 
   const [isFollowing, setIsFollowing] = useState(false); // State for follow button
   const [error, setError] = useState(null); // State for error handling
-  const originalUser = useContext(AuthContext);
-  console.log("origianal",originalUser.user.id);
+  const { user: currentUser } = useContext(AuthContext);
+  console.log("current user", currentUser);
 
    const handleFollow = async (e) => {
     e.preventDefault();
     console.log("followed");
 
+    if (!currentUser?._id || !user?._id) {
+      setError("User information not available");
+      return;
+    }
+
     try {
-     if(isFollowing)
+     if(!isFollowing)
      {
       const followRes = await axios.put(`http://localhost:8800/api/users/${user._id}/follow`, {
-        userId:originalUser.user.id,
+        userId: currentUser._id,
       });
       console.log("follow", followRes);
       setIsFollowing(true); // Update follow state
@@ -33,6 +37,7 @@ const Rightbar = ({ user }) => {
      catch(err)
      {
       console.error(err);
+      setError("Failed to follow user");
      }
    
    };
@@ -58,19 +63,25 @@ const Rightbar = ({ user }) => {
   };
 
   const profileRightbar = () => {
+    if (!user) {
+      return <div>User not found</div>;
+    }
+
     return (
       <>
         <div className="userInfo">
-          <b>{user.username}</b>
-          <div className="followButtonContainer">
-            <button className="followButton" onClick={handleFollow} disabled={isFollowing}>
-              {isFollowing ? "Following" : "Follow"}
-            </button>
-          </div>
+          <b>{user.username || 'Unknown User'}</b>
+          {currentUser?._id && user._id && currentUser._id !== user._id && (
+            <div className="followButtonContainer">
+              <button className="followButton" onClick={handleFollow} disabled={isFollowing}>
+                {isFollowing ? "Following" : "Follow"}
+              </button>
+            </div>
+          )}
           {error && <span className="error">{error}</span>} {/* Display error if exists */}
         </div>
         <span className='userInfoAbout'>
-          {user?.desc}
+          {user?.desc || 'No description available'}
         </span>
 
         <div className="userInfoFriends">

@@ -7,11 +7,16 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { dispatch } = useContext(AuthContext);
 
     const handleClick = async (e) => {
         e.preventDefault();
+        setError('');
+        setLoading(true);
+        dispatch({ type: 'LoginStart' });
         const userCredentials = { email, password };
 
         try {
@@ -21,12 +26,14 @@ const Login = () => {
                 dispatch({ type: 'LoginSuccess', payload: response.user });
                 navigate(`/profile/${response.user.username}`);
             } else {
-                console.error("Invalid response format:", response);
-                // Handle error appropriately
+                setError("Invalid email or password.");
+                dispatch({ type: 'LoginFailure' });
             }
         } catch (err) {
-            console.error("Login error:", err);
-            dispatch({ type: 'LoginFailure', payload: err });
+            setError(err?.response?.data?.error || "Login failed. Please try again.");
+            dispatch({ type: 'LoginFailure' });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -38,8 +45,15 @@ const Login = () => {
         <div className="login">
             <div className="loginWrapper">
                 <div className="loginLeft">
-                    <h1 className='logo'><b>QuillConnect</b></h1>
-                    <p className='loginDesc'>Connect with friends and the world around you on QuillConnect</p>
+                  <div className="loginLeftContent">
+                    <div className="logoContainer">
+                      <h1 className="logo auth-logo">
+                        <span className="logo-part quill">Quill</span>
+                        <span className="logo-part connect">Connect</span>
+                      </h1>
+                    </div>
+                    <p className="loginDesc">Connect with friends and the world around you on QuillConnect</p>
+                  </div>
                 </div>
                 <div className="loginRight">
                     <form className="loginBox" onSubmit={handleClick}>
@@ -50,6 +64,7 @@ const Login = () => {
                             type='email' 
                             required 
                             placeholder='Enter Your Email' 
+                            disabled={loading}
                         />
                         <input 
                             value={password} 
@@ -59,10 +74,12 @@ const Login = () => {
                             minLength={6} 
                             type="password" 
                             className="loginPassword" 
+                            disabled={loading}
                         />
-                        <button className="loginButton" type="submit">Log In</button>
+                        {error && <div className="loginError">{error}</div>}
+                        <button className="loginButton" type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Log In'}</button>
                         <a href="#" className='loginForgetPassword'>Forgot password?</a>
-                        <button className="loginCreateNewAccount" onClick={createNewAcc} type="button">Create new account</button>
+                        <button className="loginCreateNewAccount" onClick={createNewAcc} type="button" disabled={loading}>Create new account</button>
                     </form>
                 </div>
             </div>

@@ -1,7 +1,10 @@
 .topbarContainer {
-    height: 60px;
+    height: 65px;
     width: 100%;
-    background-color: #1877f2;
+    /* Dynamic Changing Gradient */
+    background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite, colorPulse 8s ease-in-out infinite;
     display: flex;
     align-items: center;
     position: sticky;
@@ -9,194 +12,696 @@
     z-index: 999;
     padding: 0 20px;
     box-sizing: border-box;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.5s ease;
+}
+
+.topbarContainer:hover {
+    background-size: 300% 300%;
+    animation-duration: 8s;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes colorPulse {
+    0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(30deg) brightness(1.1); }
+}
   
-  .topbarLeft {
+.topbarLeft {
     flex: 3;
-  }
-  
-  .logoLink {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.logoLink {
     text-decoration: none;
-  }
-  
-  .logo {
-    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: auto;
+}
+
+/* Homepage Logo - Compact and subtle */
+.logoBlock {
+    width: 50%;
+    height: 100%;
+    /* Use the same animated gradient as the topbar */
+    background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite, colorPulse 8s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0;
+    overflow: hidden;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+}
+
+.homepage-logo {
+    font-size: 18px;
+    color: #1877f2;
     font-weight: bold;
-    color: white;
-    cursor: pointer;
+    letter-spacing: 0.5px;
+    background: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    text-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.homepage-logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.homepage-logo:hover::before {
+    left: 100%;
+}
+
+.homepage-logo:hover {
+    transform: scale(1.05) rotate(2deg);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.5);
+    background: none;
+    box-shadow: none;
+}
+
+.homepage-logo:active {
+    transform: scale(0.98);
+}
+
+.homepage-logo .logo-part {
     display: inline-block;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    position: relative;
-    /* background-color: rgb(241, 212, 21); */
-    border-radius: 10px;
-  }
-  
-  .logo-part {
-    display: inline-block;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-  
-  .logo:hover .quill {
-    transform: translateY(-10px);
-    color: #FFD700; /* Gold color */
-  }
-  
-  .logo:hover .connect {
-    transform: translateY(10px);
-    color: #00FFFF; /* Cyan color */
-  }
-  
-  .logo::after {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    vertical-align: middle;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    font-size: inherit;
+}
+
+.homepage-logo:hover .quill {
+    transform: translateY(-8px) rotate(-2deg);
+    color: #FFD700;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.homepage-logo:hover .connect {
+    transform: translateY(8px) rotate(2deg);
+    color: #00FFFF;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.homepage-logo::after {
     content: '';
     position: absolute;
     left: 0;
-    bottom: -5px;
+    bottom: -4px;
     width: 100%;
     height: 3px;
-    background: linear-gradient(to right, #FFD700, #00FFFF);
+    background: linear-gradient(90deg, #FFD700, #00FFFF, #FFD700);
+    background-size: 200% 100%;
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    border-radius: 2px;
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+.homepage-logo:hover::after {
+    transform: scaleX(1);
+}
+
+.homepage-logo .logoText {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1877f2;
+    letter-spacing: 0.5px;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Auth Pages Logo - Larger and more prominent */
+.auth-logo {
+    font-size: 48px;
+    font-weight: 800;
+    color: #1877f2;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    height: auto;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.auth-logo .logo-part {
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-shadow: none;
+    vertical-align: middle;
+    line-height: 1.2;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    font-size: inherit;
+}
+
+.auth-logo:hover .quill {
+    transform: translateY(-2px);
+    color: #1877f2;
+    text-shadow: none;
+}
+
+.auth-logo:hover .connect {
+    transform: translateY(2px);
+    color: #1877f2;
+    text-shadow: none;
+}
+
+.auth-logo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #1877f2, #42a5f5, #1877f2);
+    background-size: 200% 100%;
     transform: scaleX(0);
     transition: transform 0.3s ease;
-  }
-  
-  .logo:hover::after {
+    border-radius: 2px;
+}
+
+.auth-logo:hover::after {
     transform: scaleX(1);
-  }
-  
-  /* Rest of the CSS remains largely the same */
-  .topbarCenter {
-    flex: 5;
-  }
-  
-  .searchBar {
+}
+
+/* Default logo styles (fallback) */
+.logo {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    height: 100%;
+    box-sizing: border-box;
+    min-height: 65px;
+    letter-spacing: 0.2px;
+}
+
+.logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.logo:hover::before {
+    left: 100%;
+}
+
+.logo:hover {
+    transform: scale(1.05) rotate(2deg);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.5);
+    background: none;
+    box-shadow: none;
+}
+
+.logo:active {
+    transform: scale(0.98);
+}
+
+.topbarContainer .logo-part {
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    vertical-align: middle;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    font-size: inherit;
+}
+
+.topbarContainer .logo:hover .quill {
+    transform: translateY(-8px) rotate(-2deg);
+    color: #FFD700;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    background: none;
+    padding: 0;
+}
+
+.topbarContainer .logo:hover .connect {
+    transform: translateY(8px) rotate(2deg);
+    color: #00FFFF;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    background: none;
+    padding: 0;
+}
+
+.topbarContainer .logo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #FFD700, #00FFFF, #FFD700);
+    background-size: 200% 100%;
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    border-radius: 2px;
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+.topbarContainer .logo:hover::after {
+    transform: scaleX(1);
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.searchBar {
     width: 100%;
     height: 40px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 20px;
     display: flex;
     align-items: center;
-    padding: 0 15px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .searchBar:focus-within {
-    background-color: white;
-  }
-  
-  .searchIcon {
-    font-size: 20px !important;
-    color: rgba(255, 255, 255, 0.7);
-    transition: color 0.3s ease;
-  }
-  
-  .searchBar:focus-within .searchIcon {
-    color: #1877f2;
-  }
-  
-  .searchInput {
+    padding: 0 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.searchBar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.8s ease;
+}
+
+.searchBar:hover::before {
+    left: 100%;
+}
+
+.searchBar:focus-within {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.searchBar:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.searchBar .searchIcon {
+    font-size: 22px !important;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    margin-right: 12px;
+}
+
+.searchBar:focus-within .searchIcon {
+    color: white;
+    transform: scale(1.1);
+}
+
+.searchBar .searchInput {
     border: none;
     width: 100%;
-    padding: 10px;
+    padding: 12px 8px;
     background: transparent;
     color: white;
     font-size: 16px;
-  }
-  
-  .searchInput::placeholder {
+    font-weight: 500;
+}
+
+.searchBar .searchInput::placeholder {
     color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .searchInput:focus {
+    font-weight: 400;
+}
+
+.searchBar .searchInput:focus {
     outline: none;
-    color: #1877f2;
-  }
-  
-  .searchBar:focus-within .searchInput::placeholder {
-    color: #65676b;
-  }
-  
-  .topbarRight {
+    color: white;
+}
+
+.searchBar:focus-within .searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.topbarCenter {
+    flex: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.topbarLink {
+    margin-right: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.topbarLink::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.topbarLink:hover::before {
+    left: 100%;
+}
+
+.topbarLink:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.topbarLink:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.topbarRight {
     flex: 4;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-around;
     color: white;
-  }
-  
-  .topbarIcons {
+    gap: 15px;
+}
+
+.topbarIcons {
     display: flex;
-    margin-right: 20px;
-  }
-  
-  .topbarIconItem {
-    margin-right: 20px;
+    align-items: center;
+    gap: 20px;
+}
+
+.topbarIconItem {
+    margin-right: 15px;
     cursor: pointer;
     position: relative;
-    transition: transform 0.2s ease;
-  }
-  
-  .topbarIconItem:hover {
-    transform: scale(1.1);
-  }
-  
-  .topbarIconBadge {
-    width: 18px;
-    height: 18px;
-    background-color: #e41e3f;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.4s ease;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.topbarIconItem::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.topbarIconItem:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+.topbarIconItem:hover {
+    transform: scale(1.2) rotate(5deg);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.topbarIconItem:active {
+    transform: scale(0.9);
+}
+
+.topbarIconBadge {
+    width: 15px;
+    height: 15px;
+    background-color: #ff4757;
     border-radius: 50%;
     color: white;
     position: absolute;
     top: -5px;
-    right: -8px;
+    right: -5px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    font-weight: bold;
-    border: 2px solid #1877f2;
-  }
-  
-  .profileLink {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.profileLink {
     margin-right: 20px;
-  }
-  
-  .topbarImg {
-    width: 40px;
-    height: 40px;
+}
+
+.topbarImg {
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
-    border: 2px solid white;
-    transition: transform 0.2s ease;
-  }
-  
-  .topbarImg:hover {
-    transform: scale(1.1);
-  }
-  
-  .signoutButton {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.topbarImg:hover {
+    transform: scale(1.1) translateY(-2px);
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.signoutButton {
     display: flex;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 18px;
+    border-radius: 25px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-weight: bold;
-  }
-  
-  .signoutButton:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-  }
-  
-  .signoutButton span {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    margin-left: 15px;
+}
+
+.signoutButton:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.signoutButton span {
     margin-left: 5px;
-  }
-  
-  @media (max-width: 768px) {
-    /* Mobile styles remain the same */
-  }
+}
+
+/* Additional Dynamic Effects */
+.topbarContainer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .topbarContainer {
+        padding: 0 10px;
+    }
+    
+    .logo {
+        font-size: 24px;
+        padding: 6px 12px;
+    }
+    
+    .searchBar {
+        height: 35px;
+        padding: 0 15px;
+    }
+    
+    .topbarLink {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    
+    .topbarIconItem {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    .topbarContainer {
+        height: 48px;
+        padding: 0 8px;
+    }
+    
+    .logo {
+        font-size: 20px;
+        padding: 4px 8px;
+    }
+    
+    .searchBar {
+        height: 32px;
+        padding: 0 12px;
+    }
+    
+    .topbarLink {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    
+    .topbarIconItem {
+        padding: 4px;
+    }
+    
+    .topbarImg {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.new-logo {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+}
+.logoIcon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 22px;
+    height: 22px;
+    margin-right: 2px;
+}
+.logoText {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1877f2;
+    letter-spacing: 0.5px;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+    background: none;
+    padding: 0;
+    margin: 0;
+}

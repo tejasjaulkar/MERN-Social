@@ -9,6 +9,8 @@ const Topbar = ({ setSearchResult }) => {
   const { user, dispatch } = useContext(AuthContext);
   const [profilePicture, setProfilePicture] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
   const navigate = useNavigate();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -38,18 +40,36 @@ const Topbar = ({ setSearchResult }) => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setSearchError("");
+    setSearchLoading(true);
 
-    if (!searchTerm.trim()) return;
+    if (!searchTerm.trim()) {
+      setSearchError("Please enter a username to search");
+      setSearchLoading(false);
+      return;
+    }
 
     try {
-      const res = await axios.get(`http://localhost:8800/api/users?username=${searchTerm}`);
-      if (setSearchResult) {
-        setSearchResult(res.data);
+      const res = await axios.get(`http://localhost:8800/api/users?username=${searchTerm.trim()}`);
+      
+      if (res.data) {
+        if (setSearchResult) {
+          setSearchResult(res.data);
+        }
+        console.log("Search result:", res.data);
+        navigate(`/profile/${searchTerm.trim()}`);
+      } else {
+        setSearchError("User not found");
       }
-      console.log("Search result:", res.data);
-      navigate(`/profile/${searchTerm}`);
     } catch (err) {
       console.error("Error fetching user:", err);
+      if (err.response?.status === 404) {
+        setSearchError("User not found");
+      } else {
+        setSearchError("Search failed. Please try again.");
+      }
+    } finally {
+      setSearchLoading(false);
     }
   };
 
@@ -61,23 +81,33 @@ const Topbar = ({ setSearchResult }) => {
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <Link to="/" className="logoLink">
-          <div className="logo">
-            <span className="logo-part quill">Quill</span>
-            <span className="logo-part connect">Connect</span>
-          </div>
-        </Link>
+        <div className="logoBlock">
+          <Link to="/" className="logoLink">
+            <div className="logo homepage-logo new-logo">
+              <svg className="logoIcon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 19L19 3M3 19C3 19 5.5 18.5 7.5 16.5C9.5 14.5 13 10 19 3M3 19L9 13" stroke="#1877f2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="logoText">QuillConnect</span>
+            </div>
+          </Link>
+        </div>
       </div>
       <div className="topbarCenter">
         <form onSubmit={handleSearch} className="searchBar">
           <Search className='searchIcon' />
           <input
             placeholder='Search for friends'
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setSearchError(""); // Clear error when user types
+            }}
             value={searchTerm}
             className="searchInput"
+            disabled={searchLoading}
           />
+          {searchLoading && <div className="searchLoading">Searching...</div>}
         </form>
+        {searchError && <div className="searchError">{searchError}</div>}
       </div>
       <div className="topbarRight">
         <div className="topbarIcons">

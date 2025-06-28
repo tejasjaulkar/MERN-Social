@@ -5,7 +5,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Rightbar from '../../components/Rightbar/Rightbar';
 import Feed from '../../components/Feed/Feed';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -14,11 +14,13 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { username } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       if (!username) {
         console.log("No username provided");
+        setError("No username provided");
         return;
       }
 
@@ -27,10 +29,18 @@ const Profile = () => {
 
       try {
         const res = await axios.get(`http://localhost:8800/api/users?username=${username}`);
-        setUser(res.data);
+        if (res.data) {
+          setUser(res.data);
+        } else {
+          setError("User not found");
+        }
       } catch (err) {
         console.error("Error fetching user:", err);
-        setError(err.message || "Failed to fetch user");
+        if (err.response?.status === 404) {
+          setError("User not found");
+        } else {
+          setError(err.message || "Failed to fetch user");
+        }
       } finally {
         setLoading(false);
       }
@@ -40,15 +50,59 @@ const Profile = () => {
   }, [username]);
 
   if (loading) {
-    return <div>Loading profile...</div>;
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        fontSize: '18px'
+      }}>
+        Loading profile...
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        gap: '20px'
+      }}>
+        <div style={{ fontSize: '18px', color: '#c62828' }}>Error: {error}</div>
+        <button 
+          onClick={() => navigate('/')}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#1877f2',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Go to Home
+        </button>
+      </div>
+    );
   }
 
   if (!username) {
-    return <div>No username provided</div>;
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        fontSize: '18px'
+      }}>
+        No username provided
+      </div>
+    );
   }
 
   return (
@@ -59,8 +113,16 @@ const Profile = () => {
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
-              <img src={user.profilePicture || PF + "noprofile.jpg"} alt="" className="profilePic" />
-              <img src={user.coverPicture || PF + "cc1.jpg"} alt="" className="profileCoverPic" />
+              <img 
+                src={user.profilePicture ? `${PF}${user.profilePicture}` : `${PF}noprofile.jpg`} 
+                alt="Profile" 
+                className="profilePic" 
+              />
+              <img 
+                src={user.coverPicture ? `${PF}${user.coverPicture}` : `${PF}cc1.jpg`} 
+                alt="Cover" 
+                className="profileCoverPic" 
+              />
             </div>
           </div>
           <div className="profileRightBottom">
