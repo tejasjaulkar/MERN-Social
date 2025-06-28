@@ -28,6 +28,7 @@ mongoose.connect(process.env.MONGO_URL)
 // Middleware
 app.use(cors({
   origin: 'http://localhost:3000', // Allow requests from your React app
+  credentials: true // Allow credentials (cookies, auth headers)
 }));
 
 
@@ -53,6 +54,14 @@ app.use(helmet.contentSecurityPolicy({
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Add CORS headers for static files
+app.use('/uploads', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.use("/uploads", express.static(path.join(__dirname, 'public/uploads')));
 
